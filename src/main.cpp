@@ -74,23 +74,20 @@ int main_loop() {
     int walker = 1;
     
     while (true) {
-
+        print_matrix(matrix);
         int winner = get_winner(matrix);
-        if (winner != 0) {
-            printf("\nПобедил игрок %s\n", get_walker_name(winner));
+        if (winner != 0 || cycles >= FIELD_SIZE*FIELD_SIZE) {
+            printf("\nWinned player %s\n", get_walker_name(winner));
             return LOOP_EXIT_CODES::SUCCESS;
         }
 
-        printf("\nCycle:%d\n", cycles);
-        print_matrix(matrix);
-
         while (true) {
-            printf("Ход игрока %s: ", get_walker_name(walker));
+            printf("Walk of player %s: ", get_walker_name(walker));
             int walkIndex;
             scanf("%d", &walkIndex);
 
             if (walkIndex > FIELD_SIZE*FIELD_SIZE) {
-                printf("Клетка за пределами поля!\n");
+                printf("Cell not on Field!\n");
                 continue;
             }
             
@@ -100,7 +97,7 @@ int main_loop() {
             int walkCol = walkIndex - walkRow * FIELD_SIZE;
 
             if (matrix[walkRow][walkCol] != 0) {
-                printf("Клетка занята!\n");
+                printf("Cell busy!\n");
                 continue;
             }
         
@@ -113,10 +110,6 @@ int main_loop() {
         else if (walker == 2) walker = 1;
 
         cycles++;
-    
-        if (cycles > FIELD_SIZE*FIELD_SIZE) {
-            return LOOP_EXIT_CODES::REACHED_MAX_CYCLES;
-        }
     }
 
     return LOOP_EXIT_CODES::SUCCESS;
@@ -126,14 +119,14 @@ char* get_walker_name(int _walker) {
     switch (_walker)
     {
     case 0:
-        return "Ничья";
+        return "Neutral";
         break;
     case 1:
-        return "Крестики";
+        return "Crosses";
         break;
     
     case 2:
-        return "Нолики";
+        return "Zeros";
         break;
     }
 }
