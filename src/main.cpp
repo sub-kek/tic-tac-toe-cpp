@@ -105,7 +105,6 @@ int main_loop() {
             break;
         }
 
-        // Сменить игрока
         if (walker == 1) walker = 2;
         else if (walker == 2) walker = 1;
 
